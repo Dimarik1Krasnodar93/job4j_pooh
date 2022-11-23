@@ -2,7 +2,7 @@ package ru.job4j.pooh;
 
 public class Resp  {
     private String sourceName;
-    private final String param; // нарушает принцип DRY - в двух местах хранятся данные. Непонятно зачем RESP нужен
+    private final String param;
 
     public Resp(String sourceName, String param) {
         this.sourceName = sourceName;
@@ -12,4 +12,13 @@ public class Resp  {
     public String text() {
         return param;
     }
+
+    public Resp process(Req req) {
+        return this;
+    }
+
+    public String status() {
+        return "";
+    }
+
 }
