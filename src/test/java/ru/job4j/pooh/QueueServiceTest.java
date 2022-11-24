@@ -18,7 +18,7 @@ public class QueueServiceTest {
         Resp result = queueService.process(
                 new Req("GET", "queue", "weather", null)
         );
-        assertThat(result.text(), is("temperature=18"));
+        assertThat(result.text(), is("temperature=181"));
     }
 }
 
