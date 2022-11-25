@@ -1,7 +1,12 @@
 package ru.job4j.pooh;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.StringJoiner;
+
 public class Req {
 
+    private static final String LINE_SEPARATOR = System.lineSeparator();
     private final String httpRequestType;
     private final String poohMode;
     private final String sourceName;
@@ -15,23 +20,17 @@ public class Req {
     }
 
     public static Req of(String content) {
-        String[] strings = content.split("\n");
-        String temp = strings.length > 0 ? strings[0] : "";
-        int index = temp.indexOf(' ');
-        String httpRequestType = temp.substring(0, index);
-        temp = temp.substring(index + 2);
-        index = temp.indexOf('/');
-        String poopMode = temp.substring(0, index);
-        temp = temp.substring(index + 1);
-        String sourceName = temp.substring(0, Math.min(temp.indexOf(' '), temp.indexOf('/')));
-        temp = temp.substring(Math.min(temp.indexOf(' '), temp.indexOf('/')));
-        String param;
-        if (temp.indexOf('/') == 0) {
-            param = temp.substring(1, temp.indexOf(' '));
-        } else {
-            param = strings.length > 6 ? strings[7].substring(0, strings[7].length() - 1) : "";
+        String[] strings = content.split(LINE_SEPARATOR);
+        String method = strings[0].split(" ")[0];
+        String[] str0Split = strings[0].split("/");
+        String poohMode = str0Split[1];
+        String sourceName = str0Split[2].split(" ")[0];
+        String[] str0Split2 = str0Split[3].split(" ");
+        String param = str0Split2.length > 1 ? str0Split[3].split(" ")[0] : "";
+        if (param.isEmpty()) {
+            param = strings[strings.length - 1].contains("=") ? strings[strings.length - 1] : "";
         }
-        return new Req(httpRequestType, poopMode, sourceName, param);
+        return new Req(method, poohMode, sourceName, param);
     }
 
     public String httpRequestType() {
