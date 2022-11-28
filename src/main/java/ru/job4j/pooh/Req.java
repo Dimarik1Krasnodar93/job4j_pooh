@@ -23,7 +23,6 @@ public class Req {
         String[] strings = content.split(LINE_SEPARATOR);
         var currentLine = 0;
         String method = strings[currentLine++].split(" ")[0];
-
         var headers = new HashMap<String, String>();
         while (currentLine < strings.length && !strings[currentLine].isEmpty()) {
             var lineParts = strings[currentLine++].split(":");
