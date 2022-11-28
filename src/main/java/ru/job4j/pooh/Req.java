@@ -21,6 +21,36 @@ public class Req {
 
     public static Req of(String content) {
         String[] strings = content.split(LINE_SEPARATOR);
+        var currentLine = 0;
+        String method = strings[currentLine++].split(" ")[0];
+
+        var headers = new HashMap<String, String>();
+        while (currentLine < strings.length && !strings[currentLine].isEmpty()) {
+            var lineParts = strings[currentLine++].split(":");
+            headers.put(lineParts[0].trim(), lineParts.length > 1 ? lineParts[1].trim() : "");
+        }
+        var body = new StringJoiner(LINE_SEPARATOR);
+        while (++currentLine < strings.length) {
+            if (!strings[currentLine].isEmpty()) {
+                body.add(strings[currentLine]);
+            }
+        }
+        headers.put("param", body.toString());
+        String[] str0Split = strings[0].split("/");
+        headers.put("poohMode", str0Split[1]);
+        headers.put("sourceName", str0Split[2].split(" ")[0]);
+        if (headers.get("param").isEmpty()) {
+            String[] splitParam = str0Split[3].split(" ");
+            if (splitParam.length > 1) {
+                headers.put("param", str0Split[3].split(" ")[0]);
+            }
+        }
+        return new Req(method, headers.get("poohMode"), headers.get("sourceName"),
+                headers.get("param"));
+    }
+
+    public static Req of1(String content) {
+        String[] strings = content.split(LINE_SEPARATOR);
         String method = strings[0].split(" ")[0];
         String[] str0Split = strings[0].split("/");
         String poohMode = str0Split[1];
