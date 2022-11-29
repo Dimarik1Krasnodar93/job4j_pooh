@@ -5,7 +5,10 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class QueueService implements Service {
-    private Map<String, Queue> map = new ConcurrentHashMap<>();
+    private Map<String, Queue<Resp>> map = new ConcurrentHashMap<>();
+
+    public QueueService() {
+    }
 
     @Override
     public Resp process(Req req) {
