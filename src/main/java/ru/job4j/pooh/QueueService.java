@@ -1,11 +1,11 @@
 package ru.job4j.pooh;
 
-
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class QueueService implements Service {
-    private Map<String, Queue<Resp>> map = new ConcurrentHashMap<>();
+    private final Map<String, Queue<Resp>> map = new ConcurrentHashMap<>();
+    private static final String STR_GET = "GET";
 
     public QueueService() {
     }
@@ -15,7 +15,7 @@ public class QueueService implements Service {
         if (!map.containsKey(req.getSourceName())) {
             map.put(req.getSourceName(), new ArrayDeque<Resp>());
         }
-        if ("GET".equals(req.httpRequestType())) {
+        if (STR_GET.equals(req.httpRequestType())) {
             return get(req);
         } else {
             return post(req);

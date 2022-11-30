@@ -13,10 +13,6 @@ public class Resp  {
         return param;
     }
 
-    public Resp process(Req req) {
-        return this;
-    }
-
     public String status() {
         return "";
     }

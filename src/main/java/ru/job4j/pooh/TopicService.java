@@ -1,17 +1,16 @@
 package ru.job4j.pooh;
 
-import java.util.ArrayDeque;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class TopicService implements Service {
-    Map<String, Queue<Resp>> map = new ConcurrentHashMap<>();
+    private final Map<String, Queue<Resp>> map = new ConcurrentHashMap<>();
+    private static final String STR_GET = "GET";
     @Override
     public Resp process(Req req) {
-        if ("GET".equals(req.httpRequestType())) {
+        if (STR_GET.equals(req.httpRequestType())) {
             map.putIfAbsent(req.getSourceName(), new ConcurrentLinkedQueue<>());
             Resp result =  map.get(req.getSourceName()).poll();
             if (result == null) {
