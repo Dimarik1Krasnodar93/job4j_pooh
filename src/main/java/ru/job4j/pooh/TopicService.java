@@ -10,15 +10,14 @@ public class TopicService implements Service {
     private static final String STR_GET = "GET";
     @Override
     public Resp process(Req req) {
+        map.putIfAbsent(req.getSourceName(), new ConcurrentLinkedQueue<>());
         if (STR_GET.equals(req.httpRequestType())) {
-            map.putIfAbsent(req.getSourceName(), new ConcurrentLinkedQueue<>());
             Resp result =  map.get(req.getSourceName()).poll();
             if (result == null) {
                 result = new Resp("", "");
             }
             return result;
         } else {
-            map.putIfAbsent(req.getSourceName(), new ConcurrentLinkedQueue<>());
             map.get(req.getSourceName()).offer(new Resp(req.getSourceName(), req.getParam()));
             return new Resp("", "");
         }
